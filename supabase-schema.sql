@@ -56,3 +56,23 @@ begin
   limit match_count;
 end;
 $$;
+
+-- Contact Messages
+create table if not exists contact_messages (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  email text not null,
+  message text not null,
+  ip_address text,
+  created_at timestamptz default now()
+);
+
+-- RLS: allow anonymous inserts only, no select/update/delete for anon
+alter table contact_messages enable row level security;
+do $$ begin
+  create policy contact_insert on contact_messages
+    for insert
+    to anon
+    with check (true);
+exception when duplicate_object then null;
+end $$;

@@ -87,21 +87,14 @@ export default function AboutPage() {
               </div>
               <div className="flex gap-4">
                 <a
-                  href="/resume/SriCharan_Resume.pdf"
+                  href="/resume/Balakundhi_Resume.pdf"
                   download
                   className="px-6 py-3 bg-red-600 hover:bg-red-700 rounded-lg font-semibold transition-colors flex items-center gap-2"
                 >
                   <Download className="w-4 h-4" />
                   PDF
                 </a>
-                <a
-                  href="/resume/SriCharan_Resume.docx"
-                  download
-                  className="px-6 py-3 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-lg font-semibold transition-colors flex items-center gap-2"
-                >
-                  <Download className="w-4 h-4" />
-                  DOCX
-                </a>
+                {/* DOCX unavailable currently */}
               </div>
             </div>
           </motion.div>

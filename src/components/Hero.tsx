@@ -31,6 +31,21 @@ export function Hero() {
 
   // Camera and photo animation sequence
   useEffect(() => {
+    // If animation was already shown once in this session, jump to final state
+    const alreadyShown = typeof window !== "undefined" && sessionStorage.getItem("heroAnimationShown") === "1";
+    if (alreadyShown) {
+      setShowCamera(false);
+      setShowFlash(false);
+      setShowPhoto(true);
+      setPhotoToCircle(true);
+      setPhotoToTop(true);
+      setShowText(true);
+      setNameText("Hi, I'm Sri Charan");
+      setNameComplete(true);
+      setShowChatWidget(true);
+      return;
+    }
+
     // After 2 seconds, show camera
     const showCameraTimer = setTimeout(() => setShowCamera(true), 2000);
     // After 2.5 seconds, camera clicks (flash)
@@ -76,7 +91,12 @@ export function Hero() {
     } else {
       setNameComplete(true);
       // Show chat widget after name is complete
-      setTimeout(() => setShowChatWidget(true), 500);
+      setTimeout(() => {
+        setShowChatWidget(true);
+        try {
+          sessionStorage.setItem("heroAnimationShown", "1");
+        } catch {}
+      }, 500);
     }
   }, [showText, nameText, nameComplete]);
 

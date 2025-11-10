@@ -12,11 +12,24 @@ export default function ContactPage() {
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement form submission
-    console.log("Form submitted:", formData);
-    alert("Form submission will be implemented soon!");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(text || "Failed to send message");
+      }
+      alert("Thanks! Your message was sent successfully.");
+      setFormData({ name: "", email: "", message: "" });
+    } catch (err) {
+      alert("Sorry, something went wrong. Please try again later.");
+      console.error(err);
+    }
   };
 
   return (
@@ -96,6 +109,7 @@ export default function ContactPage() {
                   >
                     <Linkedin className="w-6 h-6" />
                   </a>
+                  {/*
                   <a
                     href="tel:+16179353010"
                     className="p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-2"
@@ -103,6 +117,7 @@ export default function ContactPage() {
                   >
                     <span className="text-sm">📱</span>
                   </a>
+                  */}
                 </div>
               </div>
             </motion.div>
