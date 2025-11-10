@@ -14,7 +14,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Sri Charan - Portfolio",
-  description: "Portfolio of Sri Charan - Software Engineer, Marathon Runner, World Traveller, Cook",
+  description:
+    "Portfolio of Sri Charan - Software Engineer, Marathon Runner, Traveller, Cook",
 };
 
 export default function RootLayout({

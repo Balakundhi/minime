@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { ChatWidget } from "./ChatWidget";
+import Image from "next/image";
 
 const roles = [
   "an aspiring Software Engineer",
@@ -15,6 +16,9 @@ export function Hero() {
   const [showCamera, setShowCamera] = useState(false);
   const [cameraClick, setCameraClick] = useState(false);
   const [showFlash, setShowFlash] = useState(false);
+  const [showPhoto, setShowPhoto] = useState(false);
+  const [photoToCircle, setPhotoToCircle] = useState(false);
+  const [photoToTop, setPhotoToTop] = useState(false);
   const [showText, setShowText] = useState(false);
   const [showChatWidget, setShowChatWidget] = useState(false);
   const [nameText, setNameText] = useState("");
@@ -24,7 +28,7 @@ export function Hero() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [roleCharIndex, setRoleCharIndex] = useState(0);
 
-  // Camera animation sequence
+  // Camera and photo animation sequence
   useEffect(() => {
     // After 2 seconds, show camera
     const showCameraTimer = setTimeout(() => setShowCamera(true), 2000);
@@ -35,17 +39,26 @@ export function Hero() {
     }, 2500);
     // After 2.8 seconds, flash disappears
     const flashTimer = setTimeout(() => setShowFlash(false), 2800);
-    // After 3 seconds, hide camera and show text
+    // After 3 seconds, hide camera and show full photo
     const hideTimer = setTimeout(() => {
       setShowCamera(false);
-      setShowText(true);
+      setShowPhoto(true);
     }, 3000);
+    // After 4.5 seconds, start shrinking photo to circle
+    const circleTimer = setTimeout(() => setPhotoToCircle(true), 4500);
+    // After 5.5 seconds, move photo to top
+    const topTimer = setTimeout(() => setPhotoToTop(true), 5500);
+    // After 6 seconds, show text
+    const textTimer = setTimeout(() => setShowText(true), 6000);
     
     return () => {
       clearTimeout(showCameraTimer);
       clearTimeout(clickTimer);
       clearTimeout(flashTimer);
       clearTimeout(hideTimer);
+      clearTimeout(circleTimer);
+      clearTimeout(topTimer);
+      clearTimeout(textTimer);
     };
   }, []);
 
@@ -193,7 +206,51 @@ export function Hero() {
             </motion.div>
           )}
 
-          {/* Text appears after cyclist crosses finish line */}
+          {/* Photo Reveal Animation */}
+          {showPhoto && (
+            <motion.div
+              className="absolute inset-0 flex items-center justify-center z-40"
+              initial={{ opacity: 0 }}
+              animate={{ 
+                opacity: 1,
+                scale: photoToCircle ? [1, 0.3] : 1,
+                y: photoToTop ? [0, "-40vh"] : 0,
+                borderRadius: photoToCircle ? "50%" : "0%"
+              }}
+              transition={{ 
+                opacity: { duration: 0.5 },
+                scale: { duration: 0.8, delay: 0 },
+                y: { duration: 0.8, delay: 0.2 },
+                borderRadius: { duration: 0.8 }
+              }}
+            >
+              <motion.div
+                className="relative overflow-hidden"
+                animate={{
+                  width: photoToCircle ? "160px" : "80vw",
+                  height: photoToCircle ? "160px" : "80vh",
+                  maxWidth: photoToCircle ? "160px" : "600px",
+                  maxHeight: photoToCircle ? "160px" : "800px",
+                }}
+                transition={{ duration: 0.8 }}
+                style={{
+                  borderRadius: photoToCircle ? "50%" : "12px",
+                  border: photoToCircle ? "4px solid #DC2626" : "none",
+                  boxShadow: photoToCircle ? "0 0 30px rgba(220, 38, 38, 0.5)" : "0 20px 60px rgba(0,0,0,0.5)"
+                }}
+              >
+                <Image
+                  src="/images/profile.jpg"
+                  alt="Sri Charan Balakundhi"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </motion.div>
+            </motion.div>
+          )}
+
+          {/* Text appears after photo moves to top */}
           {showText && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
