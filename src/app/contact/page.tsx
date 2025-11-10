@@ -11,14 +11,23 @@ export default function ContactPage() {
     email: "",
     message: "",
   });
+  const [company, setCompany] = useState(""); // honeypot
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      // Grab Turnstile token from hidden input the widget injects
+      const tokenInput = document.querySelector('input[name="cf-turnstile-response"]') as HTMLInputElement | null;
+      const captchaToken = tokenInput?.value || "";
+      const payload: any = { ...formData, company };
+      if (captchaToken) {
+        payload.captchaToken = captchaToken;
+      }
+
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
       if (!res.ok) {
         const text = await res.text();
@@ -131,6 +140,17 @@ export default function ContactPage() {
               <div className="bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded-2xl p-8">
                 <h3 className="text-2xl font-semibold mb-6">Send a Message</h3>
                 <form onSubmit={handleSubmit} className="space-y-6">
+                  {/* Honeypot field (hidden) */}
+                  <input
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={company}
+                    onChange={(e) => setCompany(e.target.value)}
+                    className="hidden"
+                    aria-hidden="true"
+                    placeholder="Your company"
+                  />
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium mb-2">
                       Name
@@ -175,6 +195,13 @@ export default function ContactPage() {
                       placeholder="Your message..."
                     />
                   </div>
+
+                  {/* Turnstile widget */}
+                  <div
+                    className="cf-turnstile"
+                    data-sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+                    data-theme="dark"
+                  />
 
                   <button
                     type="submit"
