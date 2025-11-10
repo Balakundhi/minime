@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import OpenAI from "openai";
 import { env } from "@/lib/env";
+import { retrieveRelevantChunks, formatContextForLLM } from "@/lib/rag/retrieve";
 
 export const runtime = "edge";
 
@@ -11,15 +12,31 @@ export async function POST(req: NextRequest) {
       return new Response("Invalid request body", { status: 400 });
     }
 
-    const system =
-      "You are a helpful assistant that answers questions about the site owner's background, work, projects, and interests. Be concise and cite sections if provided by the retrieval layer. If you don't know, say so.";
+    // Retrieve relevant context from vector database
+    const relevantChunks = await retrieveRelevantChunks(message, {
+      limit: 5,
+      threshold: 0.3,
+    });
+    
+    const context = formatContextForLLM(relevantChunks);
+
+    const systemPrompt = `You are a helpful AI assistant that answers questions about Sri Charan - a software engineer, marathon runner, traveller, and cook.
+
+Use the provided context to answer questions accurately. If the context contains relevant information, use it to provide detailed answers. Always be friendly and conversational.
+
+If you cite specific information, mention where it came from (e.g., "According to his background...").
+
+If the question cannot be answered from the context, politely say you don't have that specific information and suggest asking something else about Sri Charan's background, skills, experience, or interests.
+
+Context:
+${context}`;
 
     const client = new OpenAI({ apiKey: env.OPENAI_API_KEY });
 
     const stream = await client.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
-        { role: "system", content: system },
+        { role: "system", content: systemPrompt },
         { role: "user", content: message },
       ],
       temperature: 0.3,
