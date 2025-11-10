@@ -62,10 +62,10 @@ export default function ContactPage() {
                 <Mail className="w-8 h-8 text-red-600 mb-4" />
                 <h3 className="text-xl font-semibold mb-2">Email</h3>
                 <a
-                  href="mailto:your.email@example.com"
+                  href="mailto:balakundhi.sricharan@gmail.com"
                   className="text-gray-400 hover:text-white transition-colors"
                 >
-                  your.email@example.com
+                  balakundhi.sricharan@gmail.com
                 </a>
               </div>
 
@@ -73,7 +73,7 @@ export default function ContactPage() {
               <div className="bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded-2xl p-6">
                 <MapPin className="w-8 h-8 text-red-600 mb-4" />
                 <h3 className="text-xl font-semibold mb-2">Location</h3>
-                <p className="text-gray-400">City, Country</p>
+                <p className="text-gray-400">Devon, PA</p>
               </div>
 
               {/* Social Links */}
@@ -81,7 +81,7 @@ export default function ContactPage() {
                 <h3 className="text-xl font-semibold mb-4">Connect with me</h3>
                 <div className="flex gap-4">
                   <a
-                    href="https://github.com/yourusername"
+                    href="https://github.com/sbalakundhi"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors"
@@ -89,7 +89,7 @@ export default function ContactPage() {
                     <Github className="w-6 h-6" />
                   </a>
                   <a
-                    href="https://linkedin.com/in/yourusername"
+                    href="https://linkedin.com/in/sbalakundhi"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors"
@@ -97,12 +97,11 @@ export default function ContactPage() {
                     <Linkedin className="w-6 h-6" />
                   </a>
                   <a
-                    href="https://twitter.com/yourusername"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors"
+                    href="tel:+16179353010"
+                    className="p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-2"
+                    title="+1-617-935-3010"
                   >
-                    <Twitter className="w-6 h-6" />
+                    <span className="text-sm">📱</span>
                   </a>
                 </div>
               </div>

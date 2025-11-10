@@ -6,28 +6,40 @@ import { ArrowLeft, ExternalLink, Github } from "lucide-react";
 
 const projects = [
   {
-    title: "Project One",
-    description: "A brief description of your first project. What problem does it solve? What technologies did you use?",
-    tags: ["React", "TypeScript", "Next.js"],
+    title: "GlobeMediWatch",
+    description: "Built a community health platform to manage and organize medical camp events. Features include event management, participant tracking, and health data analytics.",
+    tags: ["MongoDB", "Express", "React", "Node.js", "Azure", "Git"],
     github: "#",
     demo: "#",
-    image: "🚀",
+    image: "🏥",
+    date: "Apr 2024",
   },
   {
-    title: "Project Two",
-    description: "Description of your second project. Highlight the key features and your role in the development.",
-    tags: ["Python", "FastAPI", "PostgreSQL"],
+    title: "AutoNexus",
+    description: "Design-pattern based Java system for managing rentals, purchases, and inventory. Implemented Factory, Strategy, Decorator, and Singleton patterns for scalable architecture.",
+    tags: ["Java", "Design Patterns", "OOP"],
     github: "#",
     demo: "#",
-    image: "⚡",
+    image: "🚗",
+    date: "Apr 2025",
   },
   {
-    title: "Project Three",
-    description: "Your third project description. What makes this project unique? What did you learn?",
-    tags: ["Node.js", "MongoDB", "Express"],
+    title: "SkyNavigators",
+    description: "Visualized flight path optimization using advanced graph algorithms including Dijkstra's, A*, Bellman-Ford, BFS, and DFS for efficient route planning.",
+    tags: ["Java", "Graph Algorithms", "DSA"],
     github: "#",
     demo: "#",
-    image: "🎯",
+    image: "✈️",
+    date: "Dec 2024",
+  },
+  {
+    title: "Husky Payroll Management",
+    description: "Payroll system for managing salaries, employee records, and reports with comprehensive database design and SQL optimization.",
+    tags: ["Oracle SQL", "PL/SQL", "Database Design"],
+    github: "#",
+    demo: "#",
+    image: "💼",
+    date: "Dec 2023",
   },
 ];
 
@@ -75,8 +87,11 @@ export default function ProjectsPage() {
                 {/* Project Icon/Image */}
                 <div className="text-6xl mb-4">{project.image}</div>
 
-                {/* Title */}
-                <h3 className="text-2xl font-bold mb-3">{project.title}</h3>
+                {/* Title and Date */}
+                <div className="flex items-start justify-between mb-3">
+                  <h3 className="text-2xl font-bold">{project.title}</h3>
+                  <span className="text-sm text-gray-500">{project.date}</span>
+                </div>
 
                 {/* Description */}
                 <p className="text-gray-400 mb-4 line-clamp-3">

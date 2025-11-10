@@ -6,38 +6,44 @@ import { ArrowLeft, Briefcase, Calendar } from "lucide-react";
 
 const experiences = [
   {
-    title: "Software Engineer",
-    company: "Company Name",
-    period: "Jan 2024 - Present",
-    description: "Working on full-stack development, building scalable web applications and APIs.",
+    title: "Full Stack Engineer Co-op",
+    company: "Founderwayai",
+    location: "Richmond, VA",
+    period: "May 2024 - Aug 2024",
+    description: "Integrated Generative AI (LLM APIs with RAG) into a SaaS platform, building Java/Spring Boot microservices and React/Express fullstack solutions.",
     achievements: [
-      "Led development of key features that improved user engagement by 40%",
-      "Optimized database queries reducing load time by 60%",
-      "Mentored junior developers and conducted code reviews",
-    ],
-    current: true,
-  },
-  {
-    title: "Software Engineering Intern",
-    company: "Previous Company",
-    period: "Jun 2023 - Dec 2023",
-    description: "Contributed to frontend development and worked on improving user experience.",
-    achievements: [
-      "Implemented new UI components using React and TypeScript",
-      "Collaborated with design team to improve UX",
-      "Fixed critical bugs and improved application performance",
+      "Integrated Generative AI (LLM APIs with RAG) into a SaaS platform, building building Java/Spring Boot microservices and React/Express UIs with checks, surveys, GVM forms",
+      "Engineered backend orchestration with prompt validation, error handling, and usage/cost tracking, backed by a PostgreSQL history service for reliable, auditable AI operations",
+      "Built context checks and reusable React/Next.js UI components to validate inputs and streamline chat workflows, improving reusability, performance, and secure user interactions",
+      "Deployed across multi-cloud environments (Azure, AWS S3, API Gateway) for serverless AI endpoints and Azure PaaS for orchestration, integrated with CI/CD pipelines for secure, automated delivery",
     ],
     current: false,
   },
   {
-    title: "Developer Intern",
-    company: "Startup Name",
-    period: "Jan 2023 - May 2023",
-    description: "Gained hands-on experience with modern web technologies and agile development.",
+    title: "Senior Software Engineer",
+    company: "Infosys Limited",
+    location: "Pune, India",
+    period: "Nov 2018 - Nov 2019",
+    description: "Designed, developed, and deployed RESTful microservices and integration APIs in Spring Boot, improving service scalability.",
     achievements: [
-      "Built responsive web pages from design mockups",
-      "Participated in daily standups and sprint planning",
-      "Learned best practices for clean code and version control",
+      "Designed, developed, and deployed RESTful microservices and integration APIs in Spring Boot, leveraging MVC/SQL and JVM/XML messaging to improve service scalability, reducing provisioning cycle time by 30%, ensuring scalable and secure OSS/BSS data flow",
+      "Led migration of legacy services to AWS Lambda, introducing EC2 for compute, S3 for storage, and IAM roles for fine-grained access control, improving scalability and compliance",
+      "Refactored monolithic backend modules into independently deployable AWS-hosted microservices, integrated with CI/CD pipelines (Git, Jenkins), increasing deployment speed by 50%",
+      "Implemented Infrastructure-as-Code (IaC) automation using Terraform and AWS CloudFormation templates, enhancing predictability and reducing manual intervention in AWS/OSS/BSS deployments",
+    ],
+    current: false,
+  },
+  {
+    title: "Software Engineer",
+    company: "Tech Mahindra Limited",
+    location: "Pune, India & Leeds, UK",
+    period: "Aug 2015 - Nov 2018",
+    description: "Engineered and automated FTL pipelines using Java, PL/SQL, and shell scripts to extract, transform, and load large telecom order datasets.",
+    achievements: [
+      "Engineered and automated FTL pipelines using Java, PL/SQL, and shell scripts to extract, transform, and load large telecom order datasets across FTTC, FTTP, and TVA products, improving SI-A compliance and traceability by 45%",
+      "Developed and maintained the ASG Portal, enabling bulk data extraction, log retrieval, and automated deployment checks, reducing manual intervention by 50%",
+      "Collaborated with QA teams to design and execute unit, integration, and regression test cases using JUnit and Selenium, ensuring defect-free and faster turnaround",
+      "Delivered RCA reports and Customer Service Improvement Plans (CSIP) under ITIL practices, coordinating with infrastructure teams to stabilize provisioning workflows and achieve 95% SLA adherence",
     ],
     current: false,
   },
@@ -103,10 +109,10 @@ export default function ExperiencePage() {
 
                     {/* Title and company */}
                     <h3 className="text-2xl font-bold mb-2">{exp.title}</h3>
-                    <div className="flex items-center gap-4 mb-4 text-gray-400">
+                    <div className="flex flex-wrap items-center gap-4 mb-4 text-gray-400">
                       <div className="flex items-center gap-2">
                         <Briefcase className="w-4 h-4" />
-                        <span>{exp.company}</span>
+                        <span>{exp.company} • {exp.location}</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <Calendar className="w-4 h-4" />

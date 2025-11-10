@@ -43,7 +43,7 @@ export default function AboutPage() {
             >
               <MapPin className="w-8 h-8 text-red-600 mb-4" />
               <h3 className="text-lg font-semibold mb-2">Location</h3>
-              <p className="text-gray-400">City, Country</p>
+              <p className="text-gray-400">Devon, PA</p>
             </motion.div>
 
             <motion.div
@@ -54,7 +54,7 @@ export default function AboutPage() {
             >
               <Briefcase className="w-8 h-8 text-red-600 mb-4" />
               <h3 className="text-lg font-semibold mb-2">Role</h3>
-              <p className="text-gray-400">Software Engineer</p>
+              <p className="text-gray-400">Full Stack Engineer</p>
             </motion.div>
 
             <motion.div
@@ -65,7 +65,8 @@ export default function AboutPage() {
             >
               <GraduationCap className="w-8 h-8 text-red-600 mb-4" />
               <h3 className="text-lg font-semibold mb-2">Education</h3>
-              <p className="text-gray-400">University Name</p>
+              <p className="text-gray-400">Northeastern University</p>
+              <p className="text-gray-500 text-sm mt-1">MS Computer Software Engineering</p>
             </motion.div>
           </div>
 
@@ -79,16 +80,21 @@ export default function AboutPage() {
             <h2 className="text-2xl font-bold mb-4">My Story</h2>
             <div className="space-y-4 text-gray-300 leading-relaxed">
               <p>
-                Hi, I'm Sri Charan! I'm an aspiring software engineer with a passion for building
-                innovative solutions and solving complex problems.
+                Hi, I'm Sri Charan Balakundhi! I'm a Software Engineer skilled in Java, Spring Boot, JavaScript, and React, 
+                with hands-on experience building AI-driven applications and cloud-native solutions.
               </p>
               <p>
-                When I'm not coding, you'll find me training for marathons, exploring new places
-                around the world, or experimenting with new recipes in the kitchen.
+                I'm currently pursuing my Master's in Computer Software Engineering at Northeastern University (graduating May 2025) 
+                with a GPA of 3.8/4.0. I'm proficient in AWS, Azure, and have deep experience with Generative AI, LLM integration, 
+                RAG, and prompt engineering.
               </p>
               <p>
-                I believe in continuous learning and pushing boundaries, both in my professional
-                career and personal pursuits.
+                I've worked as a Full Stack Engineer Co-op at Founderwayai, and previously spent over 3 years as a software engineer 
+                at Infosys and Tech Mahindra, where I built scalable microservices, REST APIs, and cloud solutions.
+              </p>
+              <p>
+                When I'm not coding, you'll find me training for marathons, exploring new places, or experimenting with new recipes. 
+                I'm passionate about continuous learning and pushing boundaries in both my career and personal life.
               </p>
             </div>
           </motion.div>

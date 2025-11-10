@@ -6,29 +6,39 @@ import { ArrowLeft } from "lucide-react";
 
 const skillCategories = [
   {
-    category: "Frontend",
-    skills: ["React", "Next.js", "TypeScript", "Tailwind CSS", "HTML/CSS", "JavaScript"],
+    category: "Programming Languages",
+    skills: ["Java", "JavaScript (ES6+)", "TypeScript", "Python", "SQL", "PL/SQL", "Bash"],
     color: "from-blue-500 to-cyan-500",
   },
   {
-    category: "Backend",
-    skills: ["Node.js", "Python", "FastAPI", "Express", "REST APIs", "GraphQL"],
-    color: "from-green-500 to-emerald-500",
-  },
-  {
-    category: "Database",
-    skills: ["PostgreSQL", "MongoDB", "Supabase", "Redis", "Prisma"],
+    category: "Frontend Development",
+    skills: ["React.js", "Vue.js", "Redux", "Next.js", "HTML/CSS", "Tailwind", "Bootstrap", "AJAX", "JSON", "Jest"],
     color: "from-purple-500 to-pink-500",
   },
   {
-    category: "DevOps & Tools",
-    skills: ["Git", "Docker", "AWS", "Vercel", "CI/CD", "Linux"],
+    category: "Backend Development",
+    skills: ["Spring Boot", "Node.js", "Express.js", "REST APIs", "GraphQL", "Microservices", "MVC", "Data JPA", "RabbitMQ"],
+    color: "from-green-500 to-emerald-500",
+  },
+  {
+    category: "Databases",
+    skills: ["Oracle", "PostgreSQL", "MySQL", "MongoDB"],
+    color: "from-yellow-500 to-orange-500",
+  },
+  {
+    category: "Cloud & DevOps",
+    skills: ["AWS (S3, Lambda, API Gateway, IAM)", "Azure", "CI/CD", "Jenkins", "Docker", "Kubernetes", "Kafka", "Terraform"],
     color: "from-orange-500 to-red-500",
   },
   {
-    category: "Other",
-    skills: ["Machine Learning", "Data Analysis", "Agile", "Problem Solving"],
-    color: "from-yellow-500 to-orange-500",
+    category: "Version Control & Agile",
+    skills: ["Git", "GitHub", "SubVersion", "Jira", "Agile/Scrum"],
+    color: "from-indigo-500 to-blue-500",
+  },
+  {
+    category: "AI & ML",
+    skills: ["Generative AI", "LLM Integration", "Prompt Engineering", "RAG", "Spring AI", "OpenAI Java SDK"],
+    color: "from-pink-500 to-rose-500",
   },
 ];
 
@@ -100,12 +110,12 @@ export default function SkillsPage() {
             transition={{ delay: 0.6 }}
             className="mt-12 bg-gradient-to-br from-red-900/20 to-black border border-red-600/30 rounded-2xl p-8"
           >
-            <h2 className="text-2xl font-bold mb-4 text-red-600">Currently Learning</h2>
+            <h2 className="text-2xl font-bold mb-4 text-red-600">Certifications</h2>
             <p className="text-gray-300 mb-4">
-              I'm always expanding my skill set. Currently focusing on:
+              Professional certifications and continuous learning:
             </p>
             <div className="flex flex-wrap gap-3">
-              {["AI/ML", "Cloud Architecture", "System Design", "Rust"].map((skill) => (
+              {["AWS Certified Solutions Architect - Associate"].map((skill) => (
                 <span
                   key={skill}
                   className="px-4 py-2 bg-red-600/10 text-red-600 rounded-lg border border-red-600/20"
