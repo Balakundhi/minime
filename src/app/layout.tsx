@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -25,16 +26,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <script
-          src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-          async
-          defer
-        ></script>
-      </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <Script id="turnstile-init" strategy="afterInteractive">
+          {`window.turnstileInit = function () {
+            window.dispatchEvent(new Event("turnstileLoaded"));
+          };`}
+        </Script>
+        <Script
+          src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=turnstileInit"
+          strategy="afterInteractive"
+        />
         {children}
       </body>
     </html>

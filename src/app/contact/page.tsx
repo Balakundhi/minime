@@ -2,8 +2,30 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowLeft, Mail, Linkedin, Github, Twitter, MapPin } from "lucide-react";
-import { useState } from "react";
+import {
+  ArrowLeft,
+  Mail,
+  Linkedin,
+  Github,
+  Twitter,
+  MapPin,
+} from "lucide-react";
+import { useEffect, useState } from "react";
+
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (
+        element: Element,
+        options: {
+          sitekey: string;
+          theme?: "light" | "dark";
+          callback?: (token: string) => void;
+        }
+      ) => void;
+    };
+  }
+}
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -13,11 +35,42 @@ export default function ContactPage() {
   });
   const [company, setCompany] = useState(""); // honeypot
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+    if (!siteKey) return;
+
+    const renderWidget = () => {
+      const container = document.querySelector(
+        ".cf-turnstile"
+      ) as HTMLElement | null;
+      if (!container || container.dataset.rendered === "true") return;
+      if (!window.turnstile?.render) return;
+
+      window.turnstile.render(container, {
+        sitekey: siteKey,
+        theme: "dark",
+        callback: () => {
+          container.dataset.rendered = "true";
+        },
+      });
+    };
+
+    if (window.turnstile?.render) {
+      renderWidget();
+    }
+
+    window.addEventListener("turnstileLoaded", renderWidget);
+    return () => window.removeEventListener("turnstileLoaded", renderWidget);
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       // Grab Turnstile token from hidden input the widget injects
-      const tokenInput = document.querySelector('input[name="cf-turnstile-response"]') as HTMLInputElement | null;
+      const tokenInput = document.querySelector(
+        'input[name="cf-turnstile-response"]'
+      ) as HTMLInputElement | null;
       const captchaToken = tokenInput?.value || "";
       const payload: any = { ...formData, company };
       if (captchaToken) {
@@ -152,14 +205,19 @@ export default function ContactPage() {
                     placeholder="Your company"
                   />
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium mb-2">
+                    <label
+                      htmlFor="name"
+                      className="block text-sm font-medium mb-2"
+                    >
                       Name
                     </label>
                     <input
                       type="text"
                       id="name"
                       value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, name: e.target.value })
+                      }
                       required
                       className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-red-600 transition-colors"
                       placeholder="Your name"
@@ -167,14 +225,19 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium mb-2">
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-medium mb-2"
+                    >
                       Email
                     </label>
                     <input
                       type="email"
                       id="email"
                       value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, email: e.target.value })
+                      }
                       required
                       className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-red-600 transition-colors"
                       placeholder="your.email@example.com"
@@ -182,13 +245,18 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium mb-2">
+                    <label
+                      htmlFor="message"
+                      className="block text-sm font-medium mb-2"
+                    >
                       Message
                     </label>
                     <textarea
                       id="message"
                       value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, message: e.target.value })
+                      }
                       required
                       rows={5}
                       className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-red-600 transition-colors resize-none"
