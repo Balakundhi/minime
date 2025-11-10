@@ -223,8 +223,8 @@ export function Hero() {
               <motion.div
                 className="relative overflow-hidden"
                 animate={{
-                  width: photoToCircle ? "200px" : "min(70vw, 500px)",
-                  height: photoToCircle ? "200px" : "min(70vh, 600px)",
+                  width: photoToCircle ? "240px" : "min(70vw, 500px)",
+                  height: photoToCircle ? "240px" : "min(70vh, 600px)",
                 }}
                 transition={{ duration: 0.8 }}
                 style={{
@@ -240,6 +240,7 @@ export function Hero() {
                   alt="Sri Charan Balakundhi"
                   fill
                   className="object-cover"
+                  style={{ objectPosition: "center 20%" }}
                   priority
                 />
               </motion.div>
