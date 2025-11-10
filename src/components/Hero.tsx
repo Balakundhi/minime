@@ -7,22 +7,42 @@ import { ChatWidget } from "./ChatWidget";
 const roles = [
   "an aspiring Software Engineer",
   "an aspiring Marathon Runner",
-  "a World Traveller",
+  "a Traveller",
   "a Cook",
 ];
 
 export function Hero() {
-  const [currentRole, setCurrentRole] = useState(0);
+  const [displayText, setDisplayText] = useState("");
+  const [roleIndex, setRoleIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [charIndex, setCharIndex] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentRole((prev) => (prev + 1) % roles.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
+    const currentRole = roles[roleIndex];
+    const typingSpeed = isDeleting ? 50 : 100;
+    const pauseTime = isDeleting ? 500 : 2000;
+
+    if (!isDeleting && charIndex === currentRole.length) {
+      setTimeout(() => setIsDeleting(true), pauseTime);
+      return;
+    }
+
+    if (isDeleting && charIndex === 0) {
+      setIsDeleting(false);
+      setRoleIndex((prev) => (prev + 1) % roles.length);
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      setDisplayText(currentRole.substring(0, charIndex + (isDeleting ? -1 : 1)));
+      setCharIndex((prev) => prev + (isDeleting ? -1 : 1));
+    }, typingSpeed);
+
+    return () => clearTimeout(timeout);
+  }, [charIndex, isDeleting, roleIndex]);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
       {/* Animated background dots */}
       <div className="absolute inset-0 overflow-hidden">
         {[...Array(20)].map((_, i) => (
@@ -56,152 +76,208 @@ export function Hero() {
             className="space-y-4"
           >
             <h1 className="text-6xl md:text-7xl font-bold text-white leading-tight">
-              Hi, I'm <span className="text-blue-400">Sri Charan</span>
+              Hi, I'm <span className="text-red-600">Sri Charan</span>
             </h1>
             
-            <motion.div
-              key={currentRole}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5 }}
-              className="text-3xl md:text-4xl text-gray-300 font-light h-12"
-            >
-              {roles[currentRole]}
-            </motion.div>
+            <div className="text-3xl md:text-4xl text-gray-300 font-mono h-12 flex items-center">
+              <span>{displayText}</span>
+              <motion.span
+                animate={{ opacity: [1, 0] }}
+                transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse" }}
+                className="ml-1 text-red-600"
+              >
+                |
+              </motion.span>
+            </div>
           </motion.div>
 
           {/* Running person animation */}
-          <div className="relative w-full h-40 my-12 overflow-hidden">
+          <div className="relative w-full h-48 my-12 overflow-hidden">
             <motion.div
-              className="absolute flex items-center gap-4"
+              className="absolute"
               initial={{ x: "100vw" }}
-              animate={{ x: -200 }}
+              animate={{ x: -250 }}
               transition={{
-                duration: 12,
+                duration: 15,
                 repeat: Infinity,
                 ease: "linear",
               }}
             >
-              {/* Runner silhouette with trail effect */}
               <div className="relative">
-                {/* Motion trails */}
+                {/* Glow effect */}
                 <motion.div
-                  className="absolute w-16 h-20 bg-blue-400/20 rounded-full blur-xl"
+                  className="absolute inset-0 w-32 h-32 bg-red-600/20 rounded-full blur-2xl"
                   animate={{
-                    scale: [1, 1.5, 1],
-                    opacity: [0.3, 0.1, 0.3],
+                    scale: [1, 1.3, 1],
+                    opacity: [0.3, 0.5, 0.3],
                   }}
                   transition={{
-                    duration: 0.5,
+                    duration: 0.6,
                     repeat: Infinity,
                     ease: "easeInOut",
                   }}
                 />
-                
-                {/* Runner figure */}
+
+                {/* 3D Runner */}
                 <motion.div
                   animate={{
-                    y: [0, -10, 0],
+                    y: [0, -15, 0],
                   }}
                   transition={{
-                    duration: 0.4,
+                    duration: 0.6,
                     repeat: Infinity,
                     ease: "easeInOut",
                   }}
+                  className="relative"
                 >
                   <svg
-                    width="80"
-                    height="80"
-                    viewBox="0 0 24 24"
+                    width="120"
+                    height="120"
+                    viewBox="0 0 100 120"
                     fill="none"
-                    className="text-blue-400"
                   >
-                    {/* Head */}
-                    <circle cx="12" cy="5" r="2" fill="currentColor" />
-                    {/* Body */}
-                    <path
-                      d="M12 7 L12 14"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                    />
-                    {/* Arms - animated running pose */}
-                    <motion.path
-                      d="M12 9 L15 12"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
+                    {/* Shadow */}
+                    <motion.ellipse
+                      cx="50"
+                      cy="110"
+                      rx="20"
+                      ry="4"
+                      fill="#000"
+                      opacity="0.3"
                       animate={{
-                        d: ["M12 9 L15 12", "M12 9 L9 12", "M12 9 L15 12"],
-                      }}
-                      transition={{
-                        duration: 0.4,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                      }}
-                    />
-                    <motion.path
-                      d="M12 9 L9 12"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      animate={{
-                        d: ["M12 9 L9 12", "M12 9 L15 12", "M12 9 L9 12"],
-                      }}
-                      transition={{
-                        duration: 0.4,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                      }}
-                    />
-                    {/* Legs - animated running pose */}
-                    <motion.path
-                      d="M12 14 L14 19"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      animate={{
-                        d: ["M12 14 L14 19", "M12 14 L10 19", "M12 14 L14 19"],
-                      }}
-                      transition={{
-                        duration: 0.4,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                      }}
-                    />
-                    <motion.path
-                      d="M12 14 L10 19"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      animate={{
-                        d: ["M12 14 L10 19", "M12 14 L14 19", "M12 14 L10 19"],
-                      }}
-                      transition={{
-                        duration: 0.4,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                      }}
-                    />
-                  </svg>
-                </motion.div>
-                
-                {/* Speed lines behind runner */}
-                <div className="absolute top-1/2 -translate-y-1/2 left-full ml-4 flex gap-2">
-                  {[...Array(3)].map((_, i) => (
-                    <motion.div
-                      key={i}
-                      className="w-8 h-1 bg-blue-400/40 rounded-full"
-                      initial={{ scaleX: 0, opacity: 0 }}
-                      animate={{
-                        scaleX: [0, 1, 0],
-                        opacity: [0, 0.6, 0],
+                        scaleX: [1, 0.8, 1],
+                        opacity: [0.3, 0.2, 0.3],
                       }}
                       transition={{
                         duration: 0.6,
                         repeat: Infinity,
-                        delay: i * 0.1,
+                      }}
+                    />
+
+                    {/* Head */}
+                    <circle cx="50" cy="25" r="12" fill="#FFA07A" />
+                    <circle cx="47" cy="23" r="2" fill="#000" />
+                    <circle cx="53" cy="23" r="2" fill="#000" />
+                    <path d="M 45 28 Q 50 30 55 28" stroke="#000" strokeWidth="1" fill="none" strokeLinecap="round" />
+                    
+                    {/* Hair */}
+                    <path d="M 40 20 Q 50 15 60 20" fill="#8B4513" />
+
+                    {/* Body */}
+                    <ellipse cx="50" cy="55" rx="15" ry="22" fill="#FF6B6B" />
+                    
+                    {/* Running number */}
+                    <text x="45" y="60" fontSize="10" fill="#FFF" fontWeight="bold">42</text>
+
+                    {/* Arms */}
+                    <motion.g
+                      animate={{
+                        rotate: [0, -25, 0, 25, 0],
+                      }}
+                      transition={{
+                        duration: 0.6,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
+                      style={{ originX: "50px", originY: "45px" }}
+                    >
+                      {/* Left arm */}
+                      <ellipse cx="35" cy="50" rx="5" ry="18" fill="#FFA07A" transform="rotate(-30 35 50)" />
+                      <circle cx="32" cy="62" r="4" fill="#FFB6C1" />
+                    </motion.g>
+
+                    <motion.g
+                      animate={{
+                        rotate: [0, 25, 0, -25, 0],
+                      }}
+                      transition={{
+                        duration: 0.6,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
+                      style={{ originX: "50px", originY: "45px" }}
+                    >
+                      {/* Right arm */}
+                      <ellipse cx="65" cy="50" rx="5" ry="18" fill="#FFA07A" transform="rotate(30 65 50)" />
+                      <circle cx="68" cy="62" r="4" fill="#FFB6C1" />
+                    </motion.g>
+
+                    {/* Legs */}
+                    <motion.g
+                      animate={{
+                        rotate: [0, 40, 0, -40, 0],
+                      }}
+                      transition={{
+                        duration: 0.6,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
+                      style={{ originX: "45px", originY: "75px" }}
+                    >
+                      {/* Left leg */}
+                      <ellipse cx="45" cy="85" rx="6" ry="20" fill="#4169E1" />
+                      <ellipse cx="45" cy="102" rx="7" ry="6" fill="#1E90FF" />
+                    </motion.g>
+
+                    <motion.g
+                      animate={{
+                        rotate: [0, -40, 0, 40, 0],
+                      }}
+                      transition={{
+                        duration: 0.6,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
+                      style={{ originX: "55px", originY: "75px" }}
+                    >
+                      {/* Right leg */}
+                      <ellipse cx="55" cy="85" rx="6" ry="20" fill="#4169E1" />
+                      <ellipse cx="55" cy="102" rx="7" ry="6" fill="#1E90FF" />
+                    </motion.g>
+                  </svg>
+                </motion.div>
+
+                {/* Speed lines */}
+                <div className="absolute top-1/2 -translate-y-1/2 left-full ml-6 flex flex-col gap-3">
+                  {[...Array(4)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      className="h-0.5 bg-gradient-to-r from-red-600/60 to-transparent rounded-full"
+                      initial={{ width: 0, opacity: 0 }}
+                      animate={{
+                        width: [0, 40, 0],
+                        opacity: [0, 0.8, 0],
+                      }}
+                      transition={{
+                        duration: 0.8,
+                        repeat: Infinity,
+                        delay: i * 0.15,
+                        ease: "easeOut",
+                      }}
+                    />
+                  ))}
+                </div>
+
+                {/* Dust particles */}
+                <div className="absolute bottom-0 left-0 right-0">
+                  {[...Array(5)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      className="absolute w-2 h-2 bg-gray-500/40 rounded-full"
+                      style={{
+                        left: `${20 + i * 15}px`,
+                        bottom: "5px",
+                      }}
+                      animate={{
+                        y: [0, -20, -40],
+                        x: [0, Math.random() * 20 - 10],
+                        opacity: [0.6, 0.3, 0],
+                        scale: [1, 0.5, 0],
+                      }}
+                      transition={{
+                        duration: 1,
+                        repeat: Infinity,
+                        delay: i * 0.2,
                         ease: "easeOut",
                       }}
                     />
