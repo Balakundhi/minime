@@ -12,9 +12,11 @@ const roles = [
 ];
 
 export function Hero() {
-  const [showAnimation, setShowAnimation] = useState(true);
-  const [fadeOutAnimation, setFadeOutAnimation] = useState(false);
+  const [showCamera, setShowCamera] = useState(false);
+  const [cameraClick, setCameraClick] = useState(false);
+  const [showFlash, setShowFlash] = useState(false);
   const [showText, setShowText] = useState(false);
+  const [showChatWidget, setShowChatWidget] = useState(false);
   const [nameText, setNameText] = useState("");
   const [nameComplete, setNameComplete] = useState(false);
   const [roleText, setRoleText] = useState("");
@@ -22,18 +24,27 @@ export function Hero() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [roleCharIndex, setRoleCharIndex] = useState(0);
 
-  // Trigger fade out and text animation sequence
+  // Camera animation sequence
   useEffect(() => {
-    // After 4 seconds, start fading out the animation
-    const fadeTimer = setTimeout(() => setFadeOutAnimation(true), 4000);
-    // After 4.5 seconds, hide animation and show text
+    // After 2 seconds, show camera
+    const showCameraTimer = setTimeout(() => setShowCamera(true), 2000);
+    // After 2.5 seconds, camera clicks (flash)
+    const clickTimer = setTimeout(() => {
+      setCameraClick(true);
+      setShowFlash(true);
+    }, 2500);
+    // After 2.8 seconds, flash disappears
+    const flashTimer = setTimeout(() => setShowFlash(false), 2800);
+    // After 3 seconds, hide camera and show text
     const hideTimer = setTimeout(() => {
-      setShowAnimation(false);
+      setShowCamera(false);
       setShowText(true);
-    }, 4500);
+    }, 3000);
     
     return () => {
-      clearTimeout(fadeTimer);
+      clearTimeout(showCameraTimer);
+      clearTimeout(clickTimer);
+      clearTimeout(flashTimer);
       clearTimeout(hideTimer);
     };
   }, []);
@@ -50,6 +61,8 @@ export function Hero() {
       return () => clearTimeout(timeout);
     } else {
       setNameComplete(true);
+      // Show chat widget after name is complete
+      setTimeout(() => setShowChatWidget(true), 500);
     }
   }, [showText, nameText, nameComplete]);
 
@@ -82,8 +95,18 @@ export function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
-      {/* Animated background dots - only show after intro animation */}
-      {!showAnimation && (
+      {/* Flash effect */}
+      {showFlash && (
+        <motion.div
+          className="absolute inset-0 bg-white z-50"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0, 1, 0] }}
+          transition={{ duration: 0.3 }}
+        />
+      )}
+
+      {/* Animated background dots - only show after camera animation */}
+      {showText && (
         <div className="absolute inset-0 overflow-hidden">
           {[...Array(20)].map((_, i) => (
             <motion.div
@@ -110,147 +133,62 @@ export function Hero() {
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 py-20">
         <div className="flex flex-col items-center text-center space-y-8">
-          {/* Plane Animation */}
-          {showAnimation && (
+          {/* Camera Animation */}
+          {showCamera && (
             <motion.div
-              className="relative w-full h-64 mb-12 overflow-hidden"
-              initial={{ opacity: 1 }}
-              animate={{ opacity: fadeOutAnimation ? 0 : 1 }}
-              transition={{ duration: 0.5 }}
+              className="relative w-full h-64 mb-12 overflow-hidden flex items-center justify-center"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3 }}
             >
-              {/* Plane flying from right to left */}
+              {/* Camera */}
               <motion.div
-                className="absolute top-20"
-                initial={{ x: "calc(100vw + 200px)" }}
-                animate={{ x: "-300px" }}
-                transition={{
-                  duration: 4,
-                  ease: "linear",
+                animate={{
+                  scale: cameraClick ? [1, 0.95, 1] : 1,
                 }}
+                transition={{ duration: 0.2 }}
               >
-                <svg width="200" height="120" viewBox="0 0 200 120">
-                  {/* Contrails/Vapor trails */}
-                  <motion.g
-                    animate={{ opacity: [0.3, 0.6, 0.3] }}
-                    transition={{ duration: 1, repeat: Infinity }}
-                  >
-                    <path 
-                      d="M 160 55 Q 180 55 200 58" 
-                      stroke="#E5E7EB" 
-                      strokeWidth="1.5" 
-                      fill="none" 
-                      opacity="0.4"
-                    />
-                    <path 
-                      d="M 160 65 Q 180 65 200 62" 
-                      stroke="#E5E7EB" 
-                      strokeWidth="1.5" 
-                      fill="none" 
-                      opacity="0.4"
-                    />
-                  </motion.g>
-
-                  {/* Plane body */}
-                  <ellipse cx="100" cy="60" rx="50" ry="12" fill="#DC2626" />
+                <svg width="180" height="140" viewBox="0 0 180 140">
+                  {/* Camera Body */}
+                  <rect x="40" y="50" width="100" height="60" rx="8" fill="#374151" />
+                  <rect x="45" y="55" width="90" height="50" rx="5" fill="#4B5563" />
                   
-                  {/* Cockpit */}
-                  <ellipse cx="55" cy="58" rx="15" ry="10" fill="#1E3A8A" opacity="0.7" />
-                  <path d="M 45 58 Q 40 55 38 58 Q 40 61 45 58" fill="#60A5FA" opacity="0.5" />
+                  {/* Lens */}
+                  <circle cx="90" cy="80" r="25" fill="#1F2937" />
+                  <circle cx="90" cy="80" r="20" fill="#374151" />
+                  <circle cx="90" cy="80" r="15" fill="#000" />
                   
-                  {/* Wings */}
-                  <path 
-                    d="M 80 60 L 80 30 L 120 30 L 120 60" 
-                    fill="#EF4444" 
-                    stroke="#DC2626" 
-                    strokeWidth="2"
-                  />
-                  <path 
-                    d="M 80 60 L 80 90 L 120 90 L 120 60" 
-                    fill="#EF4444" 
-                    stroke="#DC2626" 
-                    strokeWidth="2"
+                  {/* Lens reflection */}
+                  <circle cx="85" cy="75" r="5" fill="#60A5FA" opacity="0.4" />
+                  
+                  {/* Flash (red light when clicked) */}
+                  <motion.rect
+                    x="120"
+                    y="60"
+                    width="12"
+                    height="10"
+                    rx="2"
+                    fill={cameraClick ? "#FCD34D" : "#DC2626"}
+                    animate={cameraClick ? {
+                      opacity: [1, 0.3, 1],
+                    } : {}}
+                    transition={{ duration: 0.15 }}
                   />
                   
-                  {/* Wing details */}
-                  <line x1="85" y1="35" x2="115" y2="35" stroke="#FCA5A5" strokeWidth="1" />
-                  <line x1="85" y1="85" x2="115" y2="85" stroke="#FCA5A5" strokeWidth="1" />
+                  {/* Viewfinder */}
+                  <rect x="65" y="45" width="15" height="8" rx="2" fill="#1F2937" />
                   
-                  {/* Tail */}
-                  <path 
-                    d="M 140 55 L 160 45 L 160 55 Z" 
-                    fill="#EF4444" 
-                    stroke="#DC2626" 
-                    strokeWidth="1.5"
-                  />
-                  <path 
-                    d="M 140 65 L 160 75 L 160 65 Z" 
-                    fill="#EF4444" 
-                    stroke="#DC2626" 
-                    strokeWidth="1.5"
-                  />
+                  {/* Shutter button */}
+                  <circle cx="130" cy="52" r="4" fill="#EF4444" />
                   
-                  {/* Tail fin */}
-                  <path 
-                    d="M 145 60 L 155 40 L 160 45 L 150 60 Z" 
-                    fill="#EF4444" 
-                    stroke="#DC2626" 
-                    strokeWidth="1.5"
-                  />
+                  {/* Grip texture */}
+                  <rect x="42" y="70" width="3" height="15" fill="#1F2937" opacity="0.5" />
+                  <rect x="47" y="70" width="3" height="15" fill="#1F2937" opacity="0.5" />
                   
-                  {/* Windows */}
-                  <circle cx="65" cy="58" r="3" fill="#60A5FA" opacity="0.6" />
-                  <circle cx="75" cy="58" r="3" fill="#60A5FA" opacity="0.6" />
-                  <circle cx="85" cy="58" r="3" fill="#60A5FA" opacity="0.6" />
-                  <circle cx="95" cy="58" r="3" fill="#60A5FA" opacity="0.6" />
-                  
-                  {/* Propeller (if you want) */}
-                  <motion.g
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 0.15, repeat: Infinity, ease: "linear" }}
-                    style={{ originX: "38px", originY: "60px" }}
-                  >
-                    <ellipse cx="38" cy="60" rx="3" ry="15" fill="#374151" opacity="0.7" />
-                    <ellipse cx="38" cy="60" rx="15" ry="3" fill="#374151" opacity="0.7" />
-                  </motion.g>
-                  
-                  {/* Engine glow */}
-                  <motion.circle
-                    cx="38"
-                    cy="60"
-                    r="6"
-                    fill="#FCD34D"
-                    opacity="0.6"
-                    animate={{ 
-                      scale: [1, 1.3, 1],
-                      opacity: [0.4, 0.7, 0.4]
-                    }}
-                    transition={{ duration: 0.3, repeat: Infinity }}
-                  />
-
-                  {/* Shadow */}
-                  <ellipse cx="100" cy="105" rx="45" ry="5" fill="#000" opacity="0.15" />
+                  {/* Camera brand/details */}
+                  <text x="60" y="68" fontSize="8" fill="#9CA3AF" fontFamily="monospace">MINI</text>
+                  <text x="60" y="100" fontSize="6" fill="#6B7280" fontFamily="monospace">PHOTOGRAPHER</text>
                 </svg>
-
-                {/* Additional vapor trail effect */}
-                <div className="absolute top-[55px] left-[160px] flex flex-col gap-2">
-                  {[...Array(3)].map((_, i) => (
-                    <motion.div
-                      key={i}
-                      className="h-px bg-gradient-to-r from-gray-300/40 to-transparent rounded-full"
-                      initial={{ width: 0, opacity: 0 }}
-                      animate={{
-                        width: [0, 60, 0],
-                        opacity: [0, 0.5, 0],
-                      }}
-                      transition={{
-                        duration: 1.5,
-                        repeat: Infinity,
-                        delay: i * 0.3,
-                        ease: "easeOut",
-                      }}
-                    />
-                  ))}
-                </div>
               </motion.div>
             </motion.div>
           )}
@@ -296,8 +234,8 @@ export function Hero() {
             </motion.div>
           )}
 
-          {/* Chat Widget */}
-          <ChatWidget />
+          {/* Chat Widget - only show after text appears */}
+          {showChatWidget && <ChatWidget />}
         </div>
       </div>
     </section>
