@@ -1,12 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { User, Briefcase, Code, Award, MessageCircle, Mail } from "lucide-react";
+import { User, Code, Award, MessageCircle, Mail } from "lucide-react";
 import Link from "next/link";
 
 const cards = [
   { icon: User, label: "Me", href: "/about", color: "from-blue-500 to-cyan-500" },
-  { icon: Briefcase, label: "Products", href: "/products", color: "from-orange-500 to-red-500" },
   { icon: Code, label: "Projects", href: "/projects", color: "from-purple-500 to-pink-500" },
   { icon: Award, label: "Skills", href: "/skills", color: "from-green-500 to-emerald-500" },
   { icon: MessageCircle, label: "Experience", href: "/experience", color: "from-indigo-500 to-blue-500" },
