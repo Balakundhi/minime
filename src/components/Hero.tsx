@@ -24,13 +24,13 @@ export function Hero() {
 
   // Trigger fade out and text animation sequence
   useEffect(() => {
-    // After 2 seconds, start fading out the animation
-    const fadeTimer = setTimeout(() => setFadeOutAnimation(true), 2000);
-    // After 2.5 seconds, hide animation and show text
+    // After 4 seconds, start fading out the animation
+    const fadeTimer = setTimeout(() => setFadeOutAnimation(true), 4000);
+    // After 4.5 seconds, hide animation and show text
     const hideTimer = setTimeout(() => {
       setShowAnimation(false);
       setShowText(true);
-    }, 2500);
+    }, 4500);
     
     return () => {
       clearTimeout(fadeTimer);
@@ -110,166 +110,148 @@ export function Hero() {
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 py-20">
         <div className="flex flex-col items-center text-center space-y-8">
-          {/* Cyclist Animation */}
+          {/* Plane Animation */}
           {showAnimation && (
             <motion.div
-              className="relative w-full h-48 mb-12 overflow-hidden"
+              className="relative w-full h-64 mb-12 overflow-hidden"
               initial={{ opacity: 1 }}
               animate={{ opacity: fadeOutAnimation ? 0 : 1 }}
               transition={{ duration: 0.5 }}
             >
-              {/* Finish Line */}
+              {/* Plane flying from right to left */}
               <motion.div
-                className="absolute left-10 top-0 bottom-0 flex items-center"
-                initial={{ opacity: 0, x: -50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5 }}
+                className="absolute top-20"
+                initial={{ x: "100vw" }}
+                animate={{ x: -200 }}
+                transition={{
+                  duration: 4,
+                  ease: "linear",
+                }}
               >
-              {/* Checkered flag pattern */}
-              <div className="relative">
-                <svg width="60" height="80" viewBox="0 0 60 80">
-                  {/* Flag pole */}
-                  <rect x="0" y="0" width="3" height="80" fill="#888" />
-                  {/* Checkered flag */}
-                  {[0, 1, 2, 3].map((row) =>
-                    [0, 1, 2, 3].map((col) => {
-                      const isBlack = (row + col) % 2 === 0;
-                      return (
-                        <motion.rect
-                          key={`${row}-${col}`}
-                          x={8 + col * 12}
-                          y={row * 10}
-                          width="12"
-                          height="10"
-                          fill={isBlack ? "#000" : "#FFF"}
-                          animate={{
-                            opacity: [1, 0.7, 1],
-                          }}
-                          transition={{
-                            duration: 0.5,
-                            repeat: Infinity,
-                            delay: (row + col) * 0.1,
-                          }}
-                        />
-                      );
-                    })
-                  )}
-                </svg>
-                <motion.div
-                  className="absolute -bottom-2 left-0 text-xs text-gray-500 whitespace-nowrap font-bold"
-                  animate={{ opacity: [0.5, 1, 0.5] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                >
-                  FINISH
-                </motion.div>
-              </div>
-            </motion.div>
+                <svg width="200" height="120" viewBox="0 0 200 120">
+                  {/* Contrails/Vapor trails */}
+                  <motion.g
+                    animate={{ opacity: [0.3, 0.6, 0.3] }}
+                    transition={{ duration: 1, repeat: Infinity }}
+                  >
+                    <path 
+                      d="M 160 55 Q 180 55 200 58" 
+                      stroke="#E5E7EB" 
+                      strokeWidth="1.5" 
+                      fill="none" 
+                      opacity="0.4"
+                    />
+                    <path 
+                      d="M 160 65 Q 180 65 200 62" 
+                      stroke="#E5E7EB" 
+                      strokeWidth="1.5" 
+                      fill="none" 
+                      opacity="0.4"
+                    />
+                  </motion.g>
 
-            {/* Cyclist */}
-            <motion.div
-              className="absolute top-1/2 -translate-y-1/2"
-              initial={{ x: "100vw" }}
-              animate={{ x: -150 }}
-              transition={{
-                duration: 2,
-                ease: "linear",
-              }}
-            >
-              <svg width="140" height="100" viewBox="0 0 140 100">
-                {/* Shadow */}
-                <ellipse cx="70" cy="90" rx="30" ry="5" fill="#000" opacity="0.2" />
-                
-                {/* Bike Frame */}
-                <path d="M 45 50 L 75 50 L 95 30 L 75 50 L 75 70" stroke="#DC2626" strokeWidth="3" fill="none" />
-                <path d="M 45 50 L 45 70" stroke="#DC2626" strokeWidth="3" />
-                
-                {/* Handlebars */}
-                <path d="M 95 30 L 105 25" stroke="#888" strokeWidth="2.5" strokeLinecap="round" />
-                
-                {/* Seat */}
-                <ellipse cx="48" cy="48" rx="8" ry="4" fill="#333" />
-                
-                {/* Pedals */}
-                <motion.g
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 0.6, repeat: Infinity, ease: "linear" }}
-                  style={{ originX: "75px", originY: "70px" }}
-                >
-                  <circle cx="75" cy="70" r="3" fill="#666" />
-                  <rect x="73" y="58" width="4" height="10" fill="#444" />
-                  <rect x="73" y="72" width="4" height="10" fill="#444" />
-                </motion.g>
-                
-                {/* Front Wheel */}
-                <motion.g
-                  animate={{ rotate: -360 }}
-                  transition={{ duration: 0.5, repeat: Infinity, ease: "linear" }}
-                  style={{ originX: "100px", originY: "85px" }}
-                >
-                  <circle cx="100" cy="85" r="15" stroke="#333" strokeWidth="3" fill="none" />
-                  <circle cx="100" cy="85" r="2" fill="#333" />
-                  <line x1="100" y1="85" x2="100" y2="70" stroke="#333" strokeWidth="1.5" />
-                  <line x1="100" y1="85" x2="115" y2="85" stroke="#333" strokeWidth="1.5" />
-                </motion.g>
-                
-                {/* Back Wheel */}
-                <motion.g
-                  animate={{ rotate: -360 }}
-                  transition={{ duration: 0.5, repeat: Infinity, ease: "linear" }}
-                  style={{ originX: "45px", originY: "85px" }}
-                >
-                  <circle cx="45" cy="85" r="15" stroke="#333" strokeWidth="3" fill="none" />
-                  <circle cx="45" cy="85" r="2" fill="#333" />
-                  <line x1="45" y1="85" x2="45" y2="70" stroke="#333" strokeWidth="1.5" />
-                  <line x1="45" y1="85" x2="60" y2="85" stroke="#333" strokeWidth="1.5" />
-                </motion.g>
-                
-                {/* Rider Body */}
-                <ellipse cx="60" cy="38" rx="12" ry="16" fill="#3B82F6" />
-                
-                {/* Rider Head */}
-                <circle cx="75" cy="25" r="10" fill="#FFA07A" />
-                <circle cx="73" cy="23" r="1.5" fill="#000" />
-                <circle cx="77" cy="23" r="1.5" fill="#000" />
-                <path d="M 72 28 Q 75 29 78 28" stroke="#000" strokeWidth="0.8" fill="none" />
-                
-                {/* Helmet */}
-                <path d="M 67 20 Q 75 15 83 20 Q 83 25 75 25 Q 67 25 67 20" fill="#DC2626" />
-                
-                {/* Arms */}
-                <motion.line
-                  x1="65"
-                  y1="35"
-                  x2="95"
-                  y2="28"
-                  stroke="#FFA07A"
-                  strokeWidth="4"
-                  strokeLinecap="round"
-                  animate={{ x2: [95, 97, 95] }}
-                  transition={{ duration: 0.6, repeat: Infinity }}
-                />
-                
-                {/* Legs */}
-                <motion.g
-                  animate={{ rotate: [0, 180] }}
-                  transition={{ duration: 0.6, repeat: Infinity, ease: "linear" }}
-                  style={{ originX: "75px", originY: "70px" }}
-                >
-                  <line x1="60" y1="50" x2="75" y2="60" stroke="#FFA07A" strokeWidth="4.5" strokeLinecap="round" />
-                  <line x1="75" y1="60" x2="73" y2="72" stroke="#FFA07A" strokeWidth="4" strokeLinecap="round" />
-                </motion.g>
-                
-                {/* Speed lines */}
-                <motion.g
-                  animate={{ opacity: [0, 0.6, 0], x: [0, -20] }}
-                  transition={{ duration: 0.4, repeat: Infinity }}
-                >
-                  <line x1="30" y1="45" x2="10" y2="45" stroke="#DC2626" strokeWidth="2" opacity="0.6" strokeLinecap="round" />
-                  <line x1="25" y1="55" x2="5" y2="55" stroke="#DC2626" strokeWidth="2" opacity="0.4" strokeLinecap="round" />
-                  <line x1="35" y1="65" x2="15" y2="65" stroke="#DC2626" strokeWidth="2" opacity="0.3" strokeLinecap="round" />
-                </motion.g>
-              </svg>
-            </motion.div>
+                  {/* Plane body */}
+                  <ellipse cx="100" cy="60" rx="50" ry="12" fill="#DC2626" />
+                  
+                  {/* Cockpit */}
+                  <ellipse cx="55" cy="58" rx="15" ry="10" fill="#1E3A8A" opacity="0.7" />
+                  <path d="M 45 58 Q 40 55 38 58 Q 40 61 45 58" fill="#60A5FA" opacity="0.5" />
+                  
+                  {/* Wings */}
+                  <path 
+                    d="M 80 60 L 80 30 L 120 30 L 120 60" 
+                    fill="#EF4444" 
+                    stroke="#DC2626" 
+                    strokeWidth="2"
+                  />
+                  <path 
+                    d="M 80 60 L 80 90 L 120 90 L 120 60" 
+                    fill="#EF4444" 
+                    stroke="#DC2626" 
+                    strokeWidth="2"
+                  />
+                  
+                  {/* Wing details */}
+                  <line x1="85" y1="35" x2="115" y2="35" stroke="#FCA5A5" strokeWidth="1" />
+                  <line x1="85" y1="85" x2="115" y2="85" stroke="#FCA5A5" strokeWidth="1" />
+                  
+                  {/* Tail */}
+                  <path 
+                    d="M 140 55 L 160 45 L 160 55 Z" 
+                    fill="#EF4444" 
+                    stroke="#DC2626" 
+                    strokeWidth="1.5"
+                  />
+                  <path 
+                    d="M 140 65 L 160 75 L 160 65 Z" 
+                    fill="#EF4444" 
+                    stroke="#DC2626" 
+                    strokeWidth="1.5"
+                  />
+                  
+                  {/* Tail fin */}
+                  <path 
+                    d="M 145 60 L 155 40 L 160 45 L 150 60 Z" 
+                    fill="#EF4444" 
+                    stroke="#DC2626" 
+                    strokeWidth="1.5"
+                  />
+                  
+                  {/* Windows */}
+                  <circle cx="65" cy="58" r="3" fill="#60A5FA" opacity="0.6" />
+                  <circle cx="75" cy="58" r="3" fill="#60A5FA" opacity="0.6" />
+                  <circle cx="85" cy="58" r="3" fill="#60A5FA" opacity="0.6" />
+                  <circle cx="95" cy="58" r="3" fill="#60A5FA" opacity="0.6" />
+                  
+                  {/* Propeller (if you want) */}
+                  <motion.g
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 0.15, repeat: Infinity, ease: "linear" }}
+                    style={{ originX: "38px", originY: "60px" }}
+                  >
+                    <ellipse cx="38" cy="60" rx="3" ry="15" fill="#374151" opacity="0.7" />
+                    <ellipse cx="38" cy="60" rx="15" ry="3" fill="#374151" opacity="0.7" />
+                  </motion.g>
+                  
+                  {/* Engine glow */}
+                  <motion.circle
+                    cx="38"
+                    cy="60"
+                    r="6"
+                    fill="#FCD34D"
+                    opacity="0.6"
+                    animate={{ 
+                      scale: [1, 1.3, 1],
+                      opacity: [0.4, 0.7, 0.4]
+                    }}
+                    transition={{ duration: 0.3, repeat: Infinity }}
+                  />
+
+                  {/* Shadow */}
+                  <ellipse cx="100" cy="105" rx="45" ry="5" fill="#000" opacity="0.15" />
+                </svg>
+
+                {/* Additional vapor trail effect */}
+                <div className="absolute top-[55px] left-[160px] flex flex-col gap-2">
+                  {[...Array(3)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      className="h-px bg-gradient-to-r from-gray-300/40 to-transparent rounded-full"
+                      initial={{ width: 0, opacity: 0 }}
+                      animate={{
+                        width: [0, 60, 0],
+                        opacity: [0, 0.5, 0],
+                      }}
+                      transition={{
+                        duration: 1.5,
+                        repeat: Infinity,
+                        delay: i * 0.3,
+                        ease: "easeOut",
+                      }}
+                    />
+                  ))}
+                </div>
+              </motion.div>
             </motion.div>
           )}
 
