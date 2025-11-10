@@ -209,34 +209,30 @@ export function Hero() {
           {/* Photo Reveal Animation */}
           {showPhoto && (
             <motion.div
-              className="absolute inset-0 flex items-center justify-center z-40"
+              className="absolute top-0 left-0 right-0 flex justify-center z-40"
               initial={{ opacity: 0 }}
               animate={{ 
                 opacity: 1,
-                scale: photoToCircle ? [1, 0.3] : 1,
-                y: photoToTop ? [0, "-40vh"] : 0,
-                borderRadius: photoToCircle ? "50%" : "0%"
+                y: photoToTop ? "3rem" : "50vh",
               }}
               transition={{ 
                 opacity: { duration: 0.5 },
-                scale: { duration: 0.8, delay: 0 },
-                y: { duration: 0.8, delay: 0.2 },
-                borderRadius: { duration: 0.8 }
+                y: { duration: 0.8, delay: 0.5 },
               }}
             >
               <motion.div
                 className="relative overflow-hidden"
                 animate={{
-                  width: photoToCircle ? "160px" : "80vw",
-                  height: photoToCircle ? "160px" : "80vh",
-                  maxWidth: photoToCircle ? "160px" : "600px",
-                  maxHeight: photoToCircle ? "160px" : "800px",
+                  width: photoToCircle ? "200px" : "min(70vw, 500px)",
+                  height: photoToCircle ? "200px" : "min(70vh, 600px)",
                 }}
                 transition={{ duration: 0.8 }}
                 style={{
-                  borderRadius: photoToCircle ? "50%" : "12px",
-                  border: photoToCircle ? "4px solid #DC2626" : "none",
-                  boxShadow: photoToCircle ? "0 0 30px rgba(220, 38, 38, 0.5)" : "0 20px 60px rgba(0,0,0,0.5)"
+                  borderRadius: photoToCircle ? "50%" : "16px",
+                  border: photoToCircle ? "5px solid #DC2626" : "8px solid rgba(220, 38, 38, 0.3)",
+                  boxShadow: photoToCircle 
+                    ? "0 0 40px rgba(220, 38, 38, 0.6), 0 0 80px rgba(220, 38, 38, 0.3)" 
+                    : "0 30px 80px rgba(0,0,0,0.7)"
                 }}
               >
                 <Image
@@ -256,7 +252,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="space-y-4"
+              className="space-y-4 mt-56"
             >
               {/* Main heading - types once and stays */}
               <div className="text-6xl md:text-7xl font-bold leading-tight min-h-[5rem] flex items-center justify-center">
