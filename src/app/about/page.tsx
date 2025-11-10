@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowLeft, MapPin, Briefcase, GraduationCap } from "lucide-react";
+import { ArrowLeft, MapPin, Briefcase, GraduationCap, Download } from "lucide-react";
 
 export default function AboutPage() {
   return (
@@ -69,6 +69,42 @@ export default function AboutPage() {
               <p className="text-gray-500 text-sm mt-1">MS Computer Software Engineering</p>
             </motion.div>
           </div>
+
+          {/* Resume Download */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35 }}
+            className="bg-gradient-to-br from-red-900/20 to-black border border-red-600/30 rounded-2xl p-8 mb-12"
+          >
+            <div className="flex items-center justify-between flex-wrap gap-4">
+              <div>
+                <h3 className="text-2xl font-bold mb-2 flex items-center gap-2">
+                  <Download className="w-6 h-6 text-red-600" />
+                  Download Resume
+                </h3>
+                <p className="text-gray-400">Get my resume in your preferred format</p>
+              </div>
+              <div className="flex gap-4">
+                <a
+                  href="/resume/SriCharan_Resume.pdf"
+                  download
+                  className="px-6 py-3 bg-red-600 hover:bg-red-700 rounded-lg font-semibold transition-colors flex items-center gap-2"
+                >
+                  <Download className="w-4 h-4" />
+                  PDF
+                </a>
+                <a
+                  href="/resume/SriCharan_Resume.docx"
+                  download
+                  className="px-6 py-3 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-lg font-semibold transition-colors flex items-center gap-2"
+                >
+                  <Download className="w-4 h-4" />
+                  DOCX
+                </a>
+              </div>
+            </div>
+          </motion.div>
 
           {/* Bio */}
           <motion.div

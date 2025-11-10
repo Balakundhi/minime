@@ -9,7 +9,7 @@ const roles = [
   "an aspiring Software Engineer",
   "an aspiring Marathon Runner",
   "a Traveller",
-  "a Cook",
+  "a Photographer and a Cook",
 ];
 
 export function Hero() {
