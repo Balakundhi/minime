@@ -5,8 +5,13 @@
  *   npx tsx scripts/ingest-content.ts
  */
 
-import { ingestDirectory, clearDatabase } from "../src/lib/rag/ingest";
+import { config } from "dotenv";
 import * as path from "path";
+
+// Load environment variables from .env.local
+config({ path: path.join(process.cwd(), ".env.local") });
+
+import { ingestDirectory, clearDatabase } from "../src/lib/rag/ingest";
 
 async function main() {
   console.log("🚀 Starting content ingestion...\n");
