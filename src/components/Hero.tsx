@@ -12,6 +12,8 @@ const roles = [
 ];
 
 export function Hero() {
+  const [showAnimation, setShowAnimation] = useState(true);
+  const [fadeOutAnimation, setFadeOutAnimation] = useState(false);
   const [showText, setShowText] = useState(false);
   const [nameText, setNameText] = useState("");
   const [nameComplete, setNameComplete] = useState(false);
@@ -20,10 +22,20 @@ export function Hero() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [roleCharIndex, setRoleCharIndex] = useState(0);
 
-  // Trigger text animation after 3 seconds (cyclist crosses finish line)
+  // Trigger fade out and text animation sequence
   useEffect(() => {
-    const timer = setTimeout(() => setShowText(true), 3000);
-    return () => clearTimeout(timer);
+    // After 2 seconds, start fading out the animation
+    const fadeTimer = setTimeout(() => setFadeOutAnimation(true), 2000);
+    // After 2.5 seconds, hide animation and show text
+    const hideTimer = setTimeout(() => {
+      setShowAnimation(false);
+      setShowText(true);
+    }, 2500);
+    
+    return () => {
+      clearTimeout(fadeTimer);
+      clearTimeout(hideTimer);
+    };
   }, []);
 
   // Type "Hi, I'm Sri Charan" once
@@ -70,40 +82,49 @@ export function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
-      {/* Animated background dots */}
-      <div className="absolute inset-0 overflow-hidden">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-blue-400/20 rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -100, 0],
-              opacity: [0.2, 0.5, 0.2],
-            }}
-            transition={{
-              duration: Math.random() * 10 + 10,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-          />
-        ))}
-      </div>
+      {/* Animated background dots - only show after intro animation */}
+      {!showAnimation && (
+        <div className="absolute inset-0 overflow-hidden">
+          {[...Array(20)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-1 h-1 bg-blue-400/20 rounded-full"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+              }}
+              initial={{ opacity: 0 }}
+              animate={{
+                y: [0, -100, 0],
+                opacity: [0.2, 0.5, 0.2],
+              }}
+              transition={{
+                duration: Math.random() * 10 + 10,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+            />
+          ))}
+        </div>
+      )}
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 py-20">
         <div className="flex flex-col items-center text-center space-y-8">
           {/* Cyclist Animation */}
-          <div className="relative w-full h-48 mb-12 overflow-hidden">
-            {/* Finish Line */}
+          {showAnimation && (
             <motion.div
-              className="absolute left-10 top-0 bottom-0 flex items-center"
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
+              className="relative w-full h-48 mb-12 overflow-hidden"
+              initial={{ opacity: 1 }}
+              animate={{ opacity: fadeOutAnimation ? 0 : 1 }}
               transition={{ duration: 0.5 }}
             >
+              {/* Finish Line */}
+              <motion.div
+                className="absolute left-10 top-0 bottom-0 flex items-center"
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
+              >
               {/* Checkered flag pattern */}
               <div className="relative">
                 <svg width="60" height="80" viewBox="0 0 60 80">
@@ -150,7 +171,7 @@ export function Hero() {
               initial={{ x: "100vw" }}
               animate={{ x: -150 }}
               transition={{
-                duration: 3,
+                duration: 2,
                 ease: "linear",
               }}
             >
@@ -249,7 +270,8 @@ export function Hero() {
                 </motion.g>
               </svg>
             </motion.div>
-          </div>
+            </motion.div>
+          )}
 
           {/* Text appears after cyclist crosses finish line */}
           {showText && (
