@@ -121,8 +121,8 @@ export function Hero() {
               {/* Plane flying from right to left */}
               <motion.div
                 className="absolute top-20"
-                initial={{ x: "100vw" }}
-                animate={{ x: -200 }}
+                initial={{ x: "calc(100vw + 200px)" }}
+                animate={{ x: "-300px" }}
                 transition={{
                   duration: 4,
                   ease: "linear",
