@@ -163,14 +163,14 @@ export default function ContactPage() {
                   >
                     <Github className="w-6 h-6" />
                   </a>
-                  <a
+                  {/* <a
                     // href="https://linkedin.com/in/sbalakundhi"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors"
-                  >
-                    <Linkedin className="w-6 h-6" />
-                  </a>
+                  > */}
+                  {/* <Linkedin className="w-6 h-6" /> */}
+                  {/* </a> */}
                   {/*
                   <a
                     href="tel:+16179353010"
